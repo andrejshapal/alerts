@@ -12,17 +12,14 @@ spec:
     rules:
     - alert: AlertmanagerFailedReload
       annotations:
-        description: Configuration has failed to load for {{ $labels.namespace}}/{{ $labels.pod}}.
-        link: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-alertmanagerfailedreload
-        summary: Reloading an Alertmanager configuration has failed. 
+        description: ddd
+        link: dd
+        summary: dd
       expr: |-
-        # Without max_over_time, failed scrapes could create false negatives, see
-        # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
         absent(nonexistent{cluster="abs"}) == 1
-      for: 30s
+      for: 15s
       labels:
         severity: critical
         namespace: monitoring
-        original_namespace: "{{if $labels.namespace}}{{$labels.namespace}}{{else}}{{$labels.cluster}}{{end}}" 
         class: non-live
         app: new
