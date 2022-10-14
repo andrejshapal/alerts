@@ -8,20 +8,13 @@ metadata:
 spec:
   route:
     receiver: slack
-    groupBy: ['alertname', 'cluster']
+    groupBy: ['alertname']
     groupWait: 30s
     groupInterval: 30s
     repeatInterval: 12h
     matchers:
       - name: severity
         value: "critical"
-      - name: class
-        value: "non-live"
-      - name: app
-        value: "new"
-      - name: resolvable
-        matchType: "!~"
-        value: "false"
   receivers:
     - name: slack
       slackConfigs:
@@ -43,12 +36,3 @@ spec:
           apiURL:
             name: slack-webhook
             key: url
-  inhibitRules:
-    - targetMatch:
-        - name: alertname
-          matchType: "!="
-          value: "All tables closed"
-    - sourceMatch:
-        - name: alertname
-          value: "All tables closed"
-    - equal: ['original_namespace']
