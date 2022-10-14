@@ -40,9 +40,7 @@ spec:
           footer: |-
             {{ range .CommonLabels.SortedPairs }}{{ if and (ne .Name "app") (ne .Name "namespace") (ne .Name "class") (ne .Name "alertname") (ne .Name "resolvable") (ne .Name "severity")}}
             • *{{ .Name }}:* `{{ .Value }}`{{ end }}{{ end }}
-          apiURL:
-            name: slack-webhook
-            key: url
+          apiURL: https://hooks.slack.com/services/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
   inhibitRules:
     - targetMatch:
         - name: alertname
