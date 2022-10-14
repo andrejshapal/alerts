@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: prometheus-rules-alertmanager.rules
+  namespace: monitoring
+  labels:
+    rule-type: "alerting"
+    prometheus: main
+spec:
+  groups:
+  - name: alertmanager.rules
+    rules:
+    - alert: AlertmanagerFailedReload
+      annotations:
+        description: Configuration has failed to load for {{ $labels.namespace}}/{{ $labels.pod}}.
+        link: https://github.com/kubernetes-monitoring/kubernetes-mixin/tree/master/runbook.md#alert-name-alertmanagerfailedreload
+        summary: Reloading an Alertmanager configuration has failed. 
+      expr: |-
+        # Without max_over_time, failed scrapes could create false negatives, see
+        # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
+        absent{cluster="abs"} == 1
+      for: 30s
+      labels:
+        severity: critical
+        namespace: monitoring
+        original_namespace: "{{if $labels.namespace}}{{$labels.namespace}}{{else}}{{$labels.cluster}}{{end}}" 
+        class: non-live
+        app: new
