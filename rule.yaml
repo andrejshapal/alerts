@@ -18,7 +18,7 @@ spec:
       expr: |-
         # Without max_over_time, failed scrapes could create false negatives, see
         # https://www.robustperception.io/alerting-on-gauges-in-prometheus-2-0 for details.
-        absent{cluster="abs"} == 1
+        absent(nonexistent{cluster="abs"}) == 1
       for: 30s
       labels:
         severity: critical
