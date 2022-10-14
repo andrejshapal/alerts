@@ -31,16 +31,16 @@ spec:
           sendResolved: true
           title: |-
             [{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .CommonLabels.alertname }} ({{ .CommonLabels.cluster }})
-titleLink: "{{ .CommonAnnotations.link }}"
+          titleLink: "{{ .CommonAnnotations.link }}"
           pretext: "{{- if .CommonAnnotations.alert_owner_user -}} <@{{.CommonAnnotations.alert_owner_user}}> {{end}} {{- if .CommonAnnotations.alert_owner_team -}} <!subteam^{{.CommonAnnotations.alert_owner_team}}> {{end}}*{{ .CommonAnnotations.summary }}*"  
           text: |-
             {{ range .Alerts -}}
             >{{ .Annotations.description }}
             {{ end }}
-footer: |-
+          footer: |-
             {{ range .CommonLabels.SortedPairs }}{{ if and (ne .Name "app") (ne .Name "namespace") (ne .Name "class") (ne .Name "alertname") (ne .Name "resolvable") (ne .Name "severity")}}
             • *{{ .Name }}:* `{{ .Value }}`{{ end }}{{ end }}
-apiURL:
+          apiURL:
             name: slack-webhook
             key: url
   inhibitRules:
@@ -52,4 +52,3 @@ apiURL:
         - name: alertname
           value: "All tables closed"
     - equal: ['original_namespace']
-
